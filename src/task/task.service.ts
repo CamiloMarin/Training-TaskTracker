@@ -154,7 +154,23 @@ export class TaskService {
   console.log(`✅ Done: ${stats.done}`);
 }
 
+  // remove --done
+  removeDone() {
+  const tasks = this.readTasks();
 
+  const doneTasks = tasks.filter(t => t.status === 'done');
+
+  if (!doneTasks.length) {
+    console.log('ℹ️ No hay tareas completadas para eliminar');
+    return;
+  }
+
+  const remaining = tasks.filter(t => t.status !== 'done');
+
+  this.saveTasks(remaining);
+
+  console.log(`🧹 ${doneTasks.length} tarea(s) completada(s) eliminada(s)`);
+} 
 
   // Enlistar tareas
 

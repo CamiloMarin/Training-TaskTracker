@@ -15,11 +15,11 @@ async function bootstrap() {
       await taskService.add(args.slice(1).join(' '));
       break;
 
-      case 'list': {
-        const status = args[1] as 'todo' | 'in-progress' | 'done' | undefined;
-        taskService.list(status);
-        break;
-      }
+    case 'list': {
+      const status = args[1] as 'todo' | 'in-progress' | 'done' | undefined;
+      taskService.list(status);
+      break;
+    }
 
     case 'delete': {
       const id = Number(args[1]);
@@ -43,7 +43,6 @@ async function bootstrap() {
       taskService.update(id, description);
       break;
     }
-
 
     case 'status': {
       const id = Number(args[1]);
@@ -74,10 +73,23 @@ async function bootstrap() {
     taskService.stats();
     break;
 
+    case 'remove': {
+      const flag = args[1];
+
+      if (flag === '--done') {
+        taskService.removeDone();
+        break;
+      }
+
+      console.log('❌ Uso correcto: remove --done');
+      break;
+    }
 
     default:
       console.log('Comando no reconocido');
   }
+
+    
 
 
 
