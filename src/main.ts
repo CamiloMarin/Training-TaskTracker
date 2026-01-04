@@ -15,9 +15,11 @@ async function bootstrap() {
       await taskService.add(args.slice(1).join(' '));
       break;
 
-    case 'list':
-      taskService.list();
-      break;
+      case 'list': {
+        const status = args[1] as 'todo' | 'in-progress' | 'done' | undefined;
+        taskService.list(status);
+        break;
+      }
 
     case 'delete': {
       const id = Number(args[1]);
@@ -55,6 +57,22 @@ async function bootstrap() {
       taskService.updateStatus(id, status);
       break;
     }
+
+    case 'toggle': {
+      const id = Number(args[1]);
+
+      if (isNaN(id)) {
+        console.log('❌ Uso correcto: toggle <id>');
+        break;
+      }
+
+      taskService.toggle(id);
+      break;
+    }
+
+    case 'stats':
+    taskService.stats();
+    break;
 
 
     default:

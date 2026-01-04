@@ -42,7 +42,12 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# build on prod // bueno para los proyectos con CLI
+$ npm run build
 ```
+
+
 
 ## Run tests
 

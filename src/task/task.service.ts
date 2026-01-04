@@ -79,13 +79,12 @@ export class TaskService {
   // Update status
   updateStatus(id: number, status: string) {
     const tasks = this.readTasks();
+    const task = tasks.find(t => t.id === id);
 
     if (!['todo', 'in-progress', 'done'].includes(status)) {
       console.log('❌ Estado inválido. Usa: todo | in-progress | done');
       return;
     }
-
-    const task = tasks.find(t => t.id === id);
 
     if (!task) {
       console.log('❌ Tarea no encontrada');
@@ -98,10 +97,73 @@ export class TaskService {
     console.log(`🔄 Estado actualizado a "${status}"`);
   }
 
+  // Toggle status : cambuia el status de un estado sin necesidad de copiar el estado especifico.
+
+  toggle(id: number) {
+  const tasks = this.readTasks();
+
+  const task = tasks.find(t => t.id === id);
+
+  if (!task) {
+    console.log('❌ Tarea no encontrada');
+    return;
+  }
+
+  switch (task.status) {
+    case 'todo':
+      task.status = 'in-progress';
+      break;
+
+    case 'in-progress':
+      task.status = 'done';
+      break;
+
+    case 'done':
+      task.status = 'todo';
+      break;
+
+    default:
+      task.status = 'todo';
+  }
+
+  this.saveTasks(tasks);
+  console.log(`🔁 Estado cambiado a "${task.status}"`);
+}
+
+  // Stats
+  stats() {
+  const tasks = this.readTasks();
+
+  const stats = {
+    total: tasks.length,
+    todo: 0,
+    'in-progress': 0,
+    done: 0,
+  };
+
+  for (const task of tasks) {
+    if (stats[task.status] !== undefined) {
+      stats[task.status]++;
+    }
+  }
+
+  console.log('📊 Estadísticas');
+  console.log(`Total: ${stats.total}`);
+  console.log(`⏳ Todo: ${stats.todo}`);
+  console.log(`🚧 In-progress: ${stats['in-progress']}`);
+  console.log(`✅ Done: ${stats.done}`);
+}
+
+
+
   // Enlistar tareas
 
-  list() {
-    const tasks = this.readTasks();
+  list(status?: 'todo' | 'in-progress' | 'done') {
+    let tasks = this.readTasks();
+    if (status) {
+      tasks = tasks.filter(task => task.status === status);
+    }
+  
     if (!tasks.length) {
       console.log('No hay tareas');
       return;
@@ -116,4 +178,6 @@ export class TaskService {
       console.log(`${icons[t.status]} [${t.status}] ${t.id}: ${t.description}`)
     );
   }
+
+
 }

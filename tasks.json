@@ -4,5 +4,11 @@
     "description": "Comprar leche deslactosada",
     "status": "done",
     "createdAt": "2026-01-03T02:26:02.889Z"
+  },
+  {
+    "id": 1767476517192,
+    "description": "Terminar update",
+    "status": "todo",
+    "createdAt": "2026-01-03T21:41:57.192Z"
   }
 ]
